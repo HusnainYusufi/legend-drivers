@@ -1,15 +1,20 @@
 // server.js
 // Express backend: accept orderNumber + image, save locally in uploads/, then post image URL to Google Sheets via Apps Script Web‑App
+// CORS enabled
 
 // Install dependencies:
-// npm install express multer axios
+// npm install express multer axios cors
 
 const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const axios = require("axios");
+const cors = require("cors");  // enable CORS
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Set up multer disk storage to save uploads in ./uploads
 const uploadDir = path.join(__dirname, "uploads");
@@ -28,7 +33,7 @@ const upload = multer({ storage });
 app.use('/files', express.static(uploadDir));
 
 // Replace with your Apps Script Web App URL
-targetSheetUrl =
+const targetSheetUrl =
   "https://script.google.com/macros/s/AKfycbzpVKQlv1A5LiCQ7tV9Io17LmNLO9dpihrzDHDdfdiTRs5R5MilSO4Og4tjiTvyKqf-/exec";
 
 // Endpoint: POST /attach
